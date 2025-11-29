@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TextFlow - Correção de Ortografia Inteligente</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        color: white;
+      }
+
+      .logo-text {
+        font-size: 3.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .tagline {
+        font-size: 1.3em;
+        opacity: 0.95;
+        margin-bottom: 20px;
+      }
+
+      .status-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        backdrop-filter: blur(10px);
+      }
+
+      main {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        padding: 50px 40px;
+        margin-bottom: 40px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .feature-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      }
+
+      .feature-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+      }
+
+      .feature-title {
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #667eea;
+      }
+
+      .feature-description {
+        color: #555;
+        font-size: 0.95em;
+      }
+
+      .download-section {
+        text-align: center;
+        margin: 50px 0;
+        padding: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        color: white;
+      }
+
+      .download-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      .download-btn {
+        background: white;
+        color: #667eea;
+        border: none;
+        padding: 18px 50px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      .download-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      }
+
+      .download-info {
+        margin-top: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 10px;
+        text-align: left;
+        backdrop-filter: blur(10px);
+      }
+
+      .download-info p {
+        margin: 12px 0;
+        font-size: 0.95em;
+        line-height: 1.8;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal-content {
+        background: white;
+        margin: 10% auto;
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 1.8em;
+        color: #667eea;
+        margin-bottom: 15px;
+      }
+
+      .modal-text {
+        color: #555;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+      }
+
+      .close-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 40px;
+        font-size: 1.1em;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .close-btn:hover {
+        transform: scale(1.05);
+      }
+
+      footer {
+        background: rgba(0,0,0,0.2);
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 40px;
+        backdrop-filter: blur(10px);
+      }
+
+      footer p {
+        margin: 8px 0;
+      }
+
+      footer a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: opacity 0.3s ease;
+      }
+
+      footer a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .logo-text {
+          font-size: 2.5em;
+        }
+
+        .tagline {
+          font-size: 1.1em;
+        }
+
+        main {
+          padding: 30px 20px;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+          margin: 30% auto;
+          padding: 30px 20px;
+        }
+      }
+    </style>
+   
+</head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo-text">TextFlow</div>
+        <div class="tagline">Correção de Ortografia Inteligente para Android</div>
+        <div class="status-badge">Em Desenvolvimento</div>
+      </header>
+
+      <main>
+        <section class="features">
+          <div class="feature-card">
+            <div class="feature-icon">✍️</div>
+            <div class="feature-title">Correção Automática</div>
+            <div class="feature-description">
+              Corrija a ortografia de qualquer texto automaticamente com inteligência artificial
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <div class="feature-title">Sistema de Moedas</div>
+            <div class="feature-description">
+              Ganhe 5 moedas assistindo anúncios. Cada correção consome apenas 1 moeda
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Planos VIP</div>
+            <div class="feature-description">
+              Assine planos premium para usar sem anúncios e comprar moedas diretamente
+            </div>
+          </div>
+        </section>
+
+        <section class="download-section">
+          <h2 class="download-title">Baixe o TextFlow</h2>
+          <button class="download-btn" onclick="showModal()">
+            📥 Download para Android
+          </button>
+
+          <div class="download-info">
+            <p>⚠️ Certifique-se de permitir instalação de fontes desconhecidas nas configurações do Android</p>
+            <p>⚠️ O app pode receber atualizações novas a qualquer momento neste botão de download. Por isso, é importante sempre ficar de olho aqui no site para baixar a versão mais recente.</p>
+            <p>🚫 O TextFlow só deve ser baixado por este site oficial. Evite baixar de outros lugares para não correr risco de vírus ou aplicativos falsos!</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 TextFlow Todos os direitos reservados.</p>
+      <p>📧 Suporte: habbobluehost2021@gmail.com | 🌐 Desenvolvido com ❤️ por <a href="https://linkr.bio/Felipenor" target="_blank">Felipenor</a></p>
+    </footer>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-icon">⚠️</div>
+        <h2 class="modal-title">Em Desenvolvimento</h2>
+        <p class="modal-text">O TextFlow ainda está sendo desenvolvido e não está disponível para download no momento. Fique atento às atualizações!</p>
+        <button class="close-btn" onclick="closeModal()">Entendi</button>
+      </div>
+    </div>
+
+    <script>
+      function showModal() {
+        document.getElementById('modal').style.display = 'block';
+      }
+
+      function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+      }
+
+      window.onclick = function(event) {
+        const modal = document.getElementById('modal');
+        if (event.target == modal) {
+          closeModal();
+        }
+      }
+    </script>
+  </body>
+</html>
